@@ -8,9 +8,12 @@
     "weight": 280,
     "age": 3,
     "location": "Bogura",
-    "description": "Healthy deshi cow suitable for Qurbani.",
+    "description": "Healthy, well-fed Deshi Shahi Cow raised with natural food and proper veterinary care. Strong physique and ideal for Qurbani. Delivery available in selected areas.",
     "image": "/images/Cow.jpg",
-    "category": "Large Animal"
+    "category": "Large Animal",
+    "healthStatus": "Excellent",
+    "deliveryAvailable": true,
+    "isVaccinated": true
   },
   {
     "id": 2,
@@ -21,9 +24,12 @@
     "weight": 35,
     "age": 2,
     "location": "Dhaka",
-    "description": "Healthy black goat for sacrifice.",
+    "description": "Premium Black Bengal Goat with excellent health condition. Farm-raised with balanced nutrition. Perfect for Qurbani with smooth handling and fast delivery options.",
     "image": "/images/Goat.jpg",
-    "category": "Small Animal"
+    "category": "Small Animal",
+    "healthStatus": "Excellent",
+    "deliveryAvailable": true,
+    "isVaccinated": true
   },
   {
     "id": 3,
@@ -34,9 +40,12 @@
     "weight": 45,
     "age": 3,
     "location": "Rajshahi",
-    "description": "Healthy sheep suitable for Qurbani.",
+    "description": "Healthy Deshi White Sheep raised in natural environment. Strong immunity and well-maintained diet. Suitable for Qurbani and farm breeding purposes.",
     "image": "/images/Sheep.jpg",
-    "category": "Small Animal"
+    "category": "Small Animal",
+    "healthStatus": "Good",
+    "deliveryAvailable": true,
+    "isVaccinated": true
   },
   {
     "id": 4,
@@ -47,22 +56,28 @@
     "weight": 40,
     "age": 3,
     "location": "Cumilla",
-    "description": "Strong farm-raised goat.",
+    "description": "Strong and premium Jamunapari Goat with superior genetics. Well-fed farm-raised animal with excellent body structure. Ideal for Qurbani season demand.",
     "image": "/images/Cow1.jpg",
-    "category": "Small Animal"
+    "category": "Large Animal",
+    "healthStatus": "Excellent",
+    "deliveryAvailable": true,
+    "isVaccinated": true
   },
   {
     "id": 5,
-    "name": "Deshi  Buffalo",
+    "name": "Deshi Buffalo",
     "type": "Buffalo",
     "breed": "Indigenous",
     "price": 180000,
     "weight": 450,
     "age": 5,
     "location": "Chittagong",
-    "description": "Healthy buffalo suitable for Qurbani.",
+    "description": "Strong indigenous Buffalo raised with natural grazing and proper care. High milk capacity and powerful build. Suitable for Qurbani and farm utility.",
     "image": "/images/Camel.jpg",
-    "category": "Large Animal"
+    "category": "Large Animal",
+    "healthStatus": "Excellent",
+    "deliveryAvailable": true,
+    "isVaccinated": true
   },
   {
     "id": 6,
@@ -73,8 +88,12 @@
     "weight": 60,
     "age": 2,
     "location": "Sylhet",
-    "description": "Healthy camel suitable for Qurbani.",
+    "description": "Healthy Arabian Camel with strong desert lineage. Well-trained and adapted to local environment. Perfect for Qurbani and premium livestock demand.",
     "image": "/images/Buffalo.jpg",
-    "category": "Large Animal"
+    "category": "Large Animal",
+    "healthStatus": "Good",
+    "deliveryAvailable": true,
+    "isVaccinated": true
   }
 ]
+

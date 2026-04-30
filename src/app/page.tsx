@@ -1,19 +1,13 @@
-import animals from '@/data/animals.json';
-
-import AnimalsSection from "@/components/Sections/AnimalsSection";
 import Hero from "@/components/Sections/Hero";
+import AnimalsSection from "@/components/Sections/AnimalsSection";
+import { animals } from "@/data/animals";
 
-
-export default  function Home() {
-
-
-   console.log(animals)
-
+export default function Home() {
   return (
-    <div className="flex  min-h-screen  justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex min-h-screen justify-center bg-zinc-50 dark:bg-black">
       <main>
         <Hero />
-       <AnimalsSection animals={animals} />
+        <AnimalsSection animals={animals} />
       </main>
     </div>
   );

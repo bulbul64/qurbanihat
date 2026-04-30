@@ -13,7 +13,7 @@ const SelectRequiredDemo = () => {
           <SelectValue />
         </SelectTrigger>
 
-        <SelectContent className={"data-[state=open]:!zoom-in-0 origin-center duration-400"}>
+        <SelectContent className={"data-[state=open]:zoom-in-0! origin-center duration-400"}>
           <SelectItem value="United States">United States</SelectItem>
           <SelectItem value="Japan">Japan</SelectItem>
           <SelectItem value="Australia">Australia</SelectItem>
