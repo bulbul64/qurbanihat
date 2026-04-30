@@ -7,6 +7,9 @@ export default async function AnimalDetailsPage({ params }: { params: { id: stri
 
   const animal = animals.find((a) => a.id === Number(id));
 
+
+
+
   if (!animal) {
 
     return (
@@ -14,8 +17,11 @@ export default async function AnimalDetailsPage({ params }: { params: { id: stri
         <h1 className="text-3xl font-bold">Animal not found</h1>
       </div>
     );
+    
   }
 
+
+  
   return (
     <div className="min-h-screen mt-10">
       <AnimalDetailsPageCard animal={animal} />

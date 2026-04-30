@@ -8,6 +8,11 @@ import { useState } from 'react';
 
 export default function AnimalsPage() {
 
+
+
+
+  
+
  const [sortOrder, setSortOrder] = useState("");
 
  const sortedAnimals = animals.sort((a, b) => {
