@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "name": "Deshi Shahi Cow",
+    "type": "Cow",
+    "breed": "Local Deshi",
+    "price": 120000,
+    "weight": 280,
+    "age": 3,
+    "location": "Bogura",
+    "description": "Healthy deshi cow suitable for Qurbani.",
+    "image": "/images/Cow.jpg",
+    "category": "Large Animal"
+  },
+  {
+    "id": 2,
+    "name": "Black Bengal Goat",
+    "type": "Goat",
+    "breed": "Black Bengal",
+    "price": 25000,
+    "weight": 35,
+    "age": 2,
+    "location": "Dhaka",
+    "description": "Healthy black goat for sacrifice.",
+    "image": "/images/Goat.jpg",
+    "category": "Small Animal"
+  },
+  {
+    "id": 3,
+    "name": "Deshi White Sheep",
+    "type": "Sheep",
+    "breed": "Local Sheep",
+    "price": 40000,
+    "weight": 45,
+    "age": 3,
+    "location": "Rajshahi",
+    "description": "Healthy sheep suitable for Qurbani.",
+    "image": "/images/Sheep.jpg",
+    "category": "Small Animal"
+  },
+  {
+    "id": 4,
+    "name": "Jamunapari Premium Goat",
+    "type": "Goat",
+    "breed": "Jamunapari",
+    "price": 30000,
+    "weight": 40,
+    "age": 3,
+    "location": "Cumilla",
+    "description": "Strong farm-raised goat.",
+    "image": "/images/Cow1.jpg",
+    "category": "Small Animal"
+  },
+  {
+    "id": 5,
+    "name": "Deshi  Buffalo",
+    "type": "Buffalo",
+    "breed": "Indigenous",
+    "price": 180000,
+    "weight": 450,
+    "age": 5,
+    "location": "Chittagong",
+    "description": "Healthy buffalo suitable for Qurbani.",
+    "image": "/images/Camel.jpg",
+    "category": "Large Animal"
+  },
+  {
+    "id": 6,
+    "name": "Arabian Camel",
+    "type": "Camel",
+    "breed": "Desert Camel",
+    "price": 90000,
+    "weight": 60,
+    "age": 2,
+    "location": "Sylhet",
+    "description": "Healthy camel suitable for Qurbani.",
+    "image": "/images/Buffalo.jpg",
+    "category": "Large Animal"
+  }
+]
