@@ -6,6 +6,7 @@ import { NavigationSheet } from '@/components/navigation-sheet';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
 
@@ -15,7 +16,16 @@ const user = data?.user
 const session = data?.session
 
 console.log( user, session)
-
+  const router = useRouter();
+const handleLogout = async () => {
+  await authClient.signOut({
+    fetchOptions: {
+      onSuccess: () => {
+        router.push("/auth/login");
+      },
+    },
+  });
+};
   
   return (
     <nav className="h-16 border-b bg-background">
@@ -31,11 +41,11 @@ console.log( user, session)
 
        {user ? (
             
-          <Link href="/auth/logout">
-            <Button className="hidden sm:inline-flex" variant="outline">
+          
+            <Button onClick={handleLogout} className="hidden sm:inline-flex" variant="outline">
               Logout
             </Button>
-          </Link>
+         
        ) : (
          <>
           <Link href="/auth/login">

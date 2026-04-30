@@ -1,43 +1,52 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
-
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Logo } from '@/components/logo';
+import { Button } from '@/components/ui/button';
+import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8, "Password must be at least 8 characters long"),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
   name: z.string(),
 });
 
 const RegisterForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
-      email: "",
-      password: "",
-      name: "",
+      email: '',
+      password: '',
+      name: '',
     },
     resolver: zodResolver(formSchema),
   });
+  const router = useRouter();
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-
-    const response = await authClient.signUp.email({
-      email: data.email,
-      password: data.password,
-      name: data.name
+  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+    const { error } = await authClient.signUp.email({
+      email: formData.email,
+      password: formData.password,
+      name: formData.name,
     });
 
-    console.log(response);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    toast.success('Registration successful!');
+    setTimeout(() => {
+      router.push('/auth/login');
+    }, 1500);
   };
 
   return (
@@ -50,8 +59,8 @@ const RegisterForm = () => {
         linear-gradient(to right, color-mix(in srgb, var(--card-foreground) 8%, transparent) 1px, transparent 1px),
         linear-gradient(to bottom, color-mix(in srgb, var(--card-foreground) 8%, transparent) 1px, transparent 1px)
       `,
-            backgroundSize: "20px 20px",
-            backgroundPosition: "0 0, 0 0",
+            backgroundSize: '20px 20px',
+            backgroundPosition: '0 0, 0 0',
             maskImage: `
         repeating-linear-gradient(
               to right,
@@ -86,16 +95,14 @@ const RegisterForm = () => {
             ),
             radial-gradient(ellipse 70% 50% at 50% 0%, #000 60%, transparent 100%)
       `,
-            maskComposite: "intersect",
-            WebkitMaskComposite: "source-in",
+            maskComposite: 'intersect',
+            WebkitMaskComposite: 'source-in',
           }}
         />
 
         <div className="relative isolate flex flex-col items-center">
           <Logo className="h-9 w-9" />
-          <p className="mt-4 font-medium text-xl">
-            Sign up for Shadcn UI Blocks
-          </p>
+          <p className="mt-4 font-medium text-xl">Sign up for Shadcn UI Blocks</p>
 
           <Button className="mt-8 w-full gap-3">
             <GoogleLogo />
@@ -107,11 +114,8 @@ const RegisterForm = () => {
             <span className="px-2 text-sm">OR</span>
             <Separator />
           </div>
-          <form
-            className="w-full space-y-4"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-              <Controller
+          <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <Controller
               control={form.control}
               name="name"
               render={({ field, fieldState }) => (
@@ -169,7 +173,7 @@ const RegisterForm = () => {
 
           <p className="mt-5 text-center text-sm">
             Already have an account?
-            <Link className="ml-1 text-muted-foreground underline" href="#">
+            <Link className="ml-1 text-muted-foreground underline" href="/auth/login">
               Log in
             </Link>
           </p>

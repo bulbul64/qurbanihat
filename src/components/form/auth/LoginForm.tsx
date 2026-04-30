@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 
 
@@ -29,13 +31,25 @@ const Login = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit =  async(data: z.infer<typeof formSchema>) => {
-    const res = await authClient.signIn.email({
-      email: data.email,
-      password: data.password
-    });
-    console.log(res)
-  };
+    const router = useRouter();
+const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+
+  const {  error } = await authClient.signIn.email({
+    email: formData.email,
+    password: formData.password
+  });
+
+  if (error) {
+    toast.error(error.message || "Login failed!");
+    return;
+  }
+
+  toast.success("Login successful!");
+
+  setTimeout(() => {
+    router.push("/");
+  }, 1000);
+};
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -154,7 +168,7 @@ const Login = () => {
             </Link>
             <p className="text-center text-sm">
               Don&apos;t have an account?
-              <Link className="ml-1 text-muted-foreground underline" href="#">
+              <Link className="ml-1 text-muted-foreground underline" href="/auth/register">
                 Create account
               </Link>
             </p>
