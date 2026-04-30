@@ -32,7 +32,7 @@ export default function Hero() {
             size="lg"
             variant="outline"
           >
-            <CirclePlay className="size-5" /> Watch Demo
+            <CirclePlay className="size-8" /> Watch Demo
           </Button>
         </div>
       </div>
