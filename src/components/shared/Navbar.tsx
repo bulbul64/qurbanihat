@@ -4,6 +4,7 @@ import { Logo } from "@/components/logo";
 import { NavMenu } from "@/components/nav-menu";
 import { NavigationSheet } from "@/components/navigation-sheet";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 
 
@@ -19,10 +20,15 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-3">
+
+         <Link href="/login">
           <Button className="hidden sm:inline-flex" variant="outline">
             Sign In
           </Button>
+         </Link>
+          <Link href="/signup">
           <Button>Sign Up</Button>
+          </Link>
           <Button size="icon" variant="outline">
             <SunIcon />
           </Button>
