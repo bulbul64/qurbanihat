@@ -9,6 +9,7 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 
 
 
@@ -28,8 +29,12 @@ const Login = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const onSubmit =  async(data: z.infer<typeof formSchema>) => {
+    const res = await authClient.signIn.email({
+      email: data.email,
+      password: data.password
+    });
+    console.log(res)
   };
 
   return (

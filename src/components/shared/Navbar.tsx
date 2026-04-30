@@ -1,14 +1,22 @@
-import { SunIcon } from "lucide-react";
-
-import { Logo } from "@/components/logo";
-import { NavMenu } from "@/components/nav-menu";
-import { NavigationSheet } from "@/components/navigation-sheet";
-import { Button } from "../ui/button";
-import Link from "next/link";
-
-
+'use client';
+import { SunIcon } from 'lucide-react';
+import { Logo } from '@/components/logo';
+import { NavMenu } from '@/components/nav-menu';
+import { NavigationSheet } from '@/components/navigation-sheet';
+import { Button } from '../ui/button';
+import Link from 'next/link';
+import { authClient } from '@/lib/auth-client';
 
 const Navbar = () => {
+
+const { data } = authClient.useSession();
+
+const user = data?.user
+const session = data?.session
+
+console.log( user, session)
+
+  
   return (
     <nav className="h-16 border-b bg-background">
       <div className="mx-auto flex h-full max-w-(--breakpoint-xl) items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -21,14 +29,25 @@ const Navbar = () => {
 
         <div className="flex items-center gap-3">
 
-         <Link href="/login">
-          <Button className="hidden sm:inline-flex" variant="outline">
-            Sign In
-          </Button>
-         </Link>
-          <Link href="/signup">
-          <Button>Sign Up</Button>
+       {user ? (
+            
+          <Link href="/auth/logout">
+            <Button className="hidden sm:inline-flex" variant="outline">
+              Logout
+            </Button>
           </Link>
+       ) : (
+         <>
+          <Link href="/auth/login">
+            <Button className="hidden sm:inline-flex">Login</Button>
+          </Link>
+          <Link href="/auth/register">
+            <Button>Sign Up</Button>
+          </Link>
+         </>
+       )}
+          
+
           <Button size="icon" variant="outline">
             <SunIcon />
           </Button>

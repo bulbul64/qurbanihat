@@ -9,12 +9,14 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Logo } from "@/components/logo";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 
 
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8, "Password must be at least 8 characters long"),
+  name: z.string(),
 });
 
 const RegisterForm = () => {
@@ -22,12 +24,20 @@ const RegisterForm = () => {
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+
+    const response = await authClient.signUp.email({
+      email: data.email,
+      password: data.password,
+      name: data.name
+    });
+
+    console.log(response);
   };
 
   return (
@@ -101,6 +111,23 @@ const RegisterForm = () => {
             className="w-full space-y-4"
             onSubmit={form.handleSubmit(onSubmit)}
           >
+              <Controller
+              control={form.control}
+              name="name"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>Name</FieldLabel>
+                  <Input
+                    aria-invalid={fieldState.invalid}
+                    className="w-full"
+                    placeholder="Name"
+                    type="text"
+                    {...field}
+                  />
+                  <FieldError errors={[fieldState.error]} />
+                </Field>
+              )}
+            />
             <Controller
               control={form.control}
               name="email"
