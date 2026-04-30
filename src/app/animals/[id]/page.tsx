@@ -1,6 +1,5 @@
 import AnimalDetailsPageCard from '@/components/animals/AnimalDetailsPageCard';
 import { animals } from '@/data/animals';
-import { toast } from 'sonner';
 
 export default async function AnimalDetailsPage({ params }: { params: { id: string } }) {
   // await params (as you want)
