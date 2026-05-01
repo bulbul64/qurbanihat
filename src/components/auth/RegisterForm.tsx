@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -23,8 +22,7 @@ const formSchema = z.object({
 
 const RegisterForm = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,15 +35,14 @@ const RegisterForm = () => {
 
  
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    setLoading(true);
-
+    
     const { error } = await authClient.signUp.email({
       name: data.name,
       email: data.email,
       password: data.password,
     });
 
-    setLoading(false);
+   
 
     if (error) {
       toast.error(error.message || "Registration failed");
@@ -57,16 +54,12 @@ const RegisterForm = () => {
   };
 
  
-  const handleGoogleSignIn = async () => {
-    setGoogleLoading(true);
-
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL: "/", 
-    });
-
-    setGoogleLoading(false);
-  };
+  const signIn = async () => {
+  const data = await authClient.signIn.social({
+    provider: "google",
+  });
+  console.log(data)
+};
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -79,13 +72,13 @@ const RegisterForm = () => {
 
           {/* Google Button */}
           <Button
-            onClick={handleGoogleSignIn}
-            disabled={googleLoading}
+            onClick={signIn}
+           
             variant="outline"
             className="mt-6 w-full gap-3"
           >
             <GoogleLogo />
-            {googleLoading ? "Loading..." : "Continue with Google"}
+            <span>Sign in with Google</span>
           </Button>
 
           <div className="my-6 flex w-full items-center gap-2">
@@ -137,8 +130,8 @@ const RegisterForm = () => {
             />
 
             {/* Submit */}
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Creating account..." : "Create Account"}
+            <Button type="submit" className="w-full" >
+              Create Account
             </Button>
           </form>
 
