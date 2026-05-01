@@ -1,9 +1,6 @@
-
-import Login from '@/components/form/auth/LoginForm'
-import React from 'react'
+import Login from '@/components/auth/LoginForm';
+import React from 'react';
 
 export default function LoginPage() {
-  return (
-    <Login />
-  )
+  return <Login />;
 }

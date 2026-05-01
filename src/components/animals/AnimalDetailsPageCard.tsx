@@ -5,11 +5,11 @@ import { Badge } from '@/components/ui/badge';
 import { Animal } from '@/types/animal';
 import SectionHeader from '../shared/SectionHeader';
 import Link from 'next/link';
-import Form from '../form/auth/Form';
+import Form from '../auth/Form';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { authClient } from '@/lib/auth-client';
-import AuthGuardFallback from '../form/auth/AuthGuardFallback';
+import AuthGuardFallback from '../auth/AuthGuardFallback';
 
 export default function AnimalDetailsPageCard({ animal }: { animal: Animal }) {
   const { data: session } = authClient.useSession();

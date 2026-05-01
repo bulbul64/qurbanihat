@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐄 QurbaniHat – Livestock Booking Platform
 
-## Getting Started
+A modern livestock marketplace where users can explore and book animals for Qurbani such as cows and goats. Users can view animal details, register/login, and book animals after authentication.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌐 Live Project
+👉 https://qurbanihat-nine.vercel.app/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎯 Project Purpose
+QurbaniHat is built to simplify livestock purchasing during Qurbani season. Users can browse animals, view details, and place bookings securely after authentication.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🚀 Key Features
 
-To learn more about Next.js, take a look at the following resources:
+- 🔐 Authentication system (Email & Password + Google OAuth)
+- 👤 User registration & login system
+- 🐄 Animal listing with details page
+- 📄 Booking form (requires login)
+- 📱 Fully responsive design (mobile, tablet, desktop)
+- 🔔 Toast notifications for success & error handling
+- ⏳ Loading UI support
+- ❌ Custom Not Found page
+- 👤 My Profile page with user info
+- ✏️ Update profile feature (name & image)
+- 🎨 Modern UI with Tailwind CSS + ShadCN components
+- ⚡ Smooth navigation using Next.js App Router
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧩 Tech Stack
 
-## Deploy on Vercel
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- ShadCN UI
+- React Hook Form
+- Zod Validation
+- Better Auth (Authentication)
+- Sonner (Toast Notifications)
+- Lucide Icons
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 NPM Packages Used
+
+- next
+- react
+- react-dom
+- react-hook-form
+- zod
+- @hookform/resolvers
+- better-auth
+- sonner
+- lucide-react
+- tailwindcss
+- shadcn/ui components
+
+---
+
+## 🔐 Authentication Features
+
+### Email & Password
+- User can register with name, email, password
+- Login using email & password
+- Form validation with Zod
+- Error handling with toast
+
+### Google Login
+- One-click Google OAuth login
+- Automatic session creation
+- Redirects to homepage after login
+
+---
+
+## 📄 Pages
+
+### Public Routes
+- `/` → Home
+- `/animals` → All animals
+- `/auth/login` → Login page
+- `/auth/register` → Register page
+
+### Private Routes
+- `/animals/[id]` → Animal details + booking form
+- `/auth/dashboard/profile` → User profile
+
+---
+
+## ⚙️ Extra Requirements Implemented
+
+- ✔ Toast notifications (success & error)
+- ✔ Loading states (UI feedback)
+- ✔ Not-found page
+- ✔ Responsive UI
+- ✔ Authentication protected routes
+- ✔ Google OAuth login integration
+
+---
+
+## 📌 Notes
+
+- No database booking storage (as per assignment rules)
+- Booking form resets after submission
+- Authentication handled via Better Auth
+- Fully SPA-friendly routing (no reload errors)
+
+---
+
+## 🏁 Status
+
+✅ Assignment Completed  
+✅

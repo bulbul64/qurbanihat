@@ -24,7 +24,7 @@ export default function AnimalsPage() {
    return 0;
  });
 
- console.log(sortOrder)
+ 
 
   return (
     <div className="max-w-7xl min-h-screen mx-auto px-6 py-10 space-y-8">

@@ -1,53 +1,64 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { Logo } from '@/components/logo';
-import { Button } from '@/components/ui/button';
-import { authClient } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Logo } from "../logo";
+
+
+
+
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8, 'Password must be at least 8 characters long'),
-  name: z.string(),
+  password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
-const RegisterForm = () => {
+const Login = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
-      email: '',
-      password: '',
-      name: '',
+      email: "",
+      password: "",
     },
     resolver: zodResolver(formSchema),
   });
-  const router = useRouter();
 
-  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
-    const { error } = await authClient.signUp.email({
-      email: formData.email,
-      password: formData.password,
-      name: formData.name,
-    });
+    const router = useRouter();
+const onSubmit = async (formData: z.infer<typeof formSchema>) => {
 
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
+  const {  error } = await authClient.signIn.email({
+    email: formData.email,
+    password: formData.password
+  });
 
-    toast.success('Registration successful!');
-    setTimeout(() => {
-      router.push('/auth/login');
-    }, 1500);
-  };
+
+  if (error) {
+    toast.error(error.message || "Login failed!");
+    return;
+  }
+
+  toast.success("Login successful!");
+
+  setTimeout(() => {
+    router.push("/");
+  }, 1000);
+};
+
+const signIn = async () => {
+  const data = await authClient.signIn.social({
+    provider: "google",
+  });
+  console.log(data)
+};
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -59,8 +70,8 @@ const RegisterForm = () => {
         linear-gradient(to right, color-mix(in srgb, var(--card-foreground) 8%, transparent) 1px, transparent 1px),
         linear-gradient(to bottom, color-mix(in srgb, var(--card-foreground) 8%, transparent) 1px, transparent 1px)
       `,
-            backgroundSize: '20px 20px',
-            backgroundPosition: '0 0, 0 0',
+            backgroundSize: "20px 20px",
+            backgroundPosition: "0 0, 0 0",
             maskImage: `
         repeating-linear-gradient(
               to right,
@@ -95,16 +106,19 @@ const RegisterForm = () => {
             ),
             radial-gradient(ellipse 70% 50% at 50% 0%, #000 60%, transparent 100%)
       `,
-            maskComposite: 'intersect',
-            WebkitMaskComposite: 'source-in',
+            maskComposite: "intersect",
+            WebkitMaskComposite: "source-in",
           }}
         />
 
         <div className="relative isolate flex flex-col items-center">
-          <Logo className="h-9 w-9" />
-          <p className="mt-4 font-medium text-xl">Sign up for Shadcn UI Blocks</p>
+           <Logo className="h-12 w-auto" />
+          <p className="mt-4 font-medium text-xl">Log in to Shadcn UI Blocks</p>
 
-          <Button className="mt-8 w-full gap-3">
+          <Button
+            onClick={signIn}
+            variant="outline"
+           className="mt-8 w-full gap-3">
             <GoogleLogo />
             Continue with Google
           </Button>
@@ -114,24 +128,10 @@ const RegisterForm = () => {
             <span className="px-2 text-sm">OR</span>
             <Separator />
           </div>
-          <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-            <Controller
-              control={form.control}
-              name="name"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>Name</FieldLabel>
-                  <Input
-                    aria-invalid={fieldState.invalid}
-                    className="w-full"
-                    placeholder="Name"
-                    type="text"
-                    {...field}
-                  />
-                  <FieldError errors={[fieldState.error]} />
-                </Field>
-              )}
-            />
+          <form
+            className="w-full space-y-6"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <Controller
               control={form.control}
               name="email"
@@ -166,17 +166,27 @@ const RegisterForm = () => {
                 </Field>
               )}
             />
-            <Button className="mt-4 w-full" type="submit">
+            <Button
+              disabled={!form.formState.isValid}
+             className="w-full" type="submit">
               Continue with Email
             </Button>
           </form>
 
-          <p className="mt-5 text-center text-sm">
-            Already have an account?
-            <Link className="ml-1 text-muted-foreground underline" href="/auth/login">
-              Log in
+          <div className="mt-5 space-y-5">
+            <Link
+              className="block text-center text-muted-foreground text-sm underline"
+              href="#"
+            >
+              Forgot your password?
             </Link>
-          </p>
+            <p className="text-center text-sm">
+              Don&apos;t have an account?
+              <Link className="ml-1 text-muted-foreground underline" href="/auth/register">
+                Create account
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -219,4 +229,4 @@ const GoogleLogo = () => (
   </svg>
 );
 
-export default RegisterForm;
+export default Login;
