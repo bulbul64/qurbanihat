@@ -1,54 +1,27 @@
 'use client';
 
-import { Camera, X } from 'lucide-react';
-import { useState } from 'react';
+import { Pencil } from 'lucide-react';
+import Link from 'next/link';
 
-import {
-  FileUpload,
-  FileUploadItem,
-  FileUploadItemDelete,
-  FileUploadList,
-  FileUploadTrigger,
-} from '@/components/ui/file-upload';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { authClient } from '@/lib/auth-client';
+import AuthGuardFallback from '../form/auth/AuthGuardFallback';
 
-interface ProfileFormData {
-  name: string;
-  email: string;
-  username: string;
-  avatar?: string;
-  bio?: string;
-}
-
-interface SettingsProfile1Props {
-  defaultValues?: Partial<ProfileFormData>;
-  onSave?: (data: ProfileFormData) => void;
-  className?: string;
-}
-
-const DashboardProfile = ({ className,}: SettingsProfile1Props) => {
-
-
-
-
-  const [avatarFiles, setAvatarFiles] = useState<File[]>([]);
-
+const DashboardProfile = ({ className }: { className?: string }) => {
   const { data: session } = authClient.useSession();
 
-  const user = session?.user;
+  if (!session) {
+    return (
+      <AuthGuardFallback
+        title="Access restricted"
+        description="Please sign in to view your profile information."
+      />
+    );
+  }
+
+  const user = session.user;
 
   const initials = user?.name
     ?.split(' ')
@@ -56,99 +29,94 @@ const DashboardProfile = ({ className,}: SettingsProfile1Props) => {
     .join('')
     .toUpperCase();
 
-  // Get preview URL from uploaded file or use default avatar
-  const avatarPreview =
-    avatarFiles.length > 0 ? URL.createObjectURL(avatarFiles[0]) : user?.image ?? '';
-
   return (
-    <Card className={cn('w-full max-w-lg', className)}>
-      <CardHeader>
-        <CardTitle>Profile</CardTitle>
-        <CardDescription>Update your personal information and profile picture</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Avatar Upload */}
-        <FileUpload
-          value={avatarFiles}
-          onValueChange={setAvatarFiles}
-          accept="image/*"
-          maxFiles={1}
-          maxSize={2 * 1024 * 1024}
-        >
-          <div className="flex items-center gap-4">
-            <FileUploadTrigger asChild>
-              <button
-                type="button"
-                className="group relative size-20 shrink-0 cursor-pointer rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
-              >
-                <Avatar className="size-20">
-                  <AvatarImage
-                    src={avatarPreview}
-                    alt={user?.name ?? ''}
-                    className="object-cover"
-                  />
-                  <AvatarFallback className="text-xl font-semibold">{initials}</AvatarFallback>
-                </Avatar>
-                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
-                  <Camera className="size-6 text-white" />
-                </div>
-              </button>
-            </FileUploadTrigger>
+    <div className={cn('space-y-6', className)}>
+      {/* Page Header */}
+      <div className="mx-auto mb-8 max-w-5xl">
+        <h1 className="text-3xl font-bold">My Profile</h1>
+        <p className="text-muted-foreground">
+          Manage your personal information and account identity
+        </p>
+      </div>
 
-            <div className="space-y-1">
-              <p className="text-sm font-medium">Profile Photo</p>
-              <p className="text-xs text-muted-foreground">
-                Click the avatar to upload a new photo
-              </p>
-              <p className="text-xs text-muted-foreground">JPG, PNG or GIF. Max 2MB.</p>
+      {/* Main Layout */}
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
+        
+        {/* LEFT SIDE - PROFILE HERO */}
+        <div className="rounded-2xl bg-white p-8 shadow-sm md:col-span-1">
+          <div className="flex flex-col items-center text-center">
+            <Avatar className="h-32 w-32">
+              <AvatarImage src={user?.image ?? ''} alt={user?.name ?? ''} />
+              <AvatarFallback className="text-3xl font-semibold">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+
+            <h2 className="mt-4 text-xl font-semibold">{user?.name}</h2>
+            <p className="text-sm text-muted-foreground">{user?.email}</p>
+
+            {/* Edit Button */}
+            <Link href="/auth/dashboard/profile/edit" className="mt-6 w-full">
+              <Button className="w-full gap-2">
+                <Pencil className="h-4 w-4" />
+                Edit Profile
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* RIGHT SIDE - DETAILS */}
+        <div className="space-y-6 md:col-span-2">
+          
+          {/* Info Card */}
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <h3 className="mb-4 text-lg font-semibold">Account Details</h3>
+
+            <div className="grid gap-4">
+              <div>
+                <p className="text-sm text-muted-foreground">Full Name</p>
+                <p className="text-base font-medium">{user?.name}</p>
+              </div>
+
+              <div>
+                <p className="text-sm text-muted-foreground">Email Address</p>
+                <p className="text-base">{user?.email}</p>
+              </div>
+
+              <div>
+                <p className="text-sm text-muted-foreground">User ID</p>
+                <p className="text-xs text-muted-foreground break-all">
+                  {user?.id}
+                </p>
+              </div>
             </div>
           </div>
 
-          {avatarFiles.length > 0 && (
-            <FileUploadList className="mt-3">
-              {avatarFiles.map((file, index) => (
-                <FileUploadItem
-                  key={index}
-                  value={file}
-                  className="rounded-lg border bg-muted/30 p-2"
-                >
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium">{file.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {(file.size / 1024).toFixed(1)} KB
-                    </p>
-                  </div>
-                  <FileUploadItemDelete asChild>
-                    <Button variant="ghost" size="icon" className="size-8">
-                      <X className="size-4" />
-                    </Button>
-                  </FileUploadItemDelete>
-                </FileUploadItem>
-              ))}
-            </FileUploadList>
-          )}
-        </FileUpload>
+          {/* Status Card */}
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <h3 className="mb-4 text-lg font-semibold">Account Status</h3>
 
-        <div className="space-y-2">
-          <Label htmlFor="name">Full Name</Label>
-          <Input id="name" placeholder="Enter your name" defaultValue={user?.name} />
-        </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">
+                Email Verification
+              </span>
 
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            defaultValue={user?.email}
-          />
+              <span
+                className={cn(
+                  'rounded-full px-3 py-1 text-xs font-medium',
+                  user?.emailVerified
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-red-100 text-red-600'
+                )}
+              >
+                {user?.emailVerified ? 'Verified' : 'Not Verified'}
+              </span>
+            </div>
+          </div>
+
         </div>
-      </CardContent>
-      <CardFooter className="flex justify-end gap-2">
-        <Button variant="outline">Cancel</Button>
-        <Button>Save Changes</Button>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 };
 

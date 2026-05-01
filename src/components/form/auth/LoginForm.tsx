@@ -39,6 +39,7 @@ const onSubmit = async (formData: z.infer<typeof formSchema>) => {
     password: formData.password
   });
 
+
   if (error) {
     toast.error(error.message || "Login failed!");
     return;

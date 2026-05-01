@@ -44,7 +44,7 @@ const handleLogout = async () => {
           
             <>
 
-            <Button onClick={() => router.push("/auth/dashboard")} className="hidden sm:inline-flex">
+            <Button onClick={() => router.push("/auth/dashboard/profile")} className="hidden sm:inline-flex">
               Dashboard
             </Button>
             <Button onClick={handleLogout} className="hidden sm:inline-flex" variant="outline">

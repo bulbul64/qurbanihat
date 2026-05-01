@@ -1,33 +1,36 @@
-'use client'
-import { MapPin, Calendar, Weight } from "lucide-react";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { Animal } from "@/types/animal";
-import SectionHeader from "../shared/SectionHeader";
-import Link from "next/link";
-import Form from "../form/auth/Form";
-import { useEffect } from "react";
-import { toast } from "sonner";
+'use client';
+import { MapPin, Calendar, Weight } from 'lucide-react';
+import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
+import { Animal } from '@/types/animal';
+import SectionHeader from '../shared/SectionHeader';
+import Link from 'next/link';
+import Form from '../form/auth/Form';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
+import { authClient } from '@/lib/auth-client';
+import AuthGuardFallback from '../form/auth/AuthGuardFallback';
 
+export default function AnimalDetailsPageCard({ animal }: { animal: Animal }) {
+  const { data: session } = authClient.useSession();
+  useEffect(() => {
+    if (!session) return;
+    toast.success(`${animal.name} details loaded`);
+  }, [animal.name, session]);
 
-export default function AnimalDetailsPageCard({
-  animal,
-}: {
-  animal: Animal;
-}) {
-
- useEffect(() => {
-  toast.success(`${animal.name} details loaded`);
-}, [animal.name]);
+  if (!session) {
+    return (
+      <AuthGuardFallback
+        title="You're not signed in"
+        description="Sign in to see full details and book this animal."
+      />
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10 space-y-6">
-
       {/* HEADER */}
-      <SectionHeader
-        title={`${animal.name} Details`}
-        className="text-center"
-      />
+      <SectionHeader title={`${animal.name} Details`} className="text-center" />
 
       {/* BACK LINK */}
       <div>
@@ -41,7 +44,6 @@ export default function AnimalDetailsPageCard({
 
       {/* CARD */}
       <div className="grid md:grid-cols-2 gap-10 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-lg bg-white dark:bg-zinc-950">
-
         {/* IMAGE */}
         <div className="relative w-full h-100 md:h-full min-h-100">
           <Image
@@ -60,12 +62,9 @@ export default function AnimalDetailsPageCard({
 
         {/* INFO */}
         <div className="p-8 flex flex-col gap-6">
-
           {/* TITLE */}
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold leading-tight">
-              {animal.name}
-            </h1>
+            <h1 className="text-3xl font-bold leading-tight">{animal.name}</h1>
 
             <p className="text-emerald-600 text-2xl font-semibold">
               ৳ {animal.price.toLocaleString()}
@@ -74,7 +73,6 @@ export default function AnimalDetailsPageCard({
 
           {/* META INFO */}
           <div className="space-y-4 text-muted-foreground">
-
             <div className="flex items-center gap-3">
               <MapPin size={18} />
               <span>{animal.location}</span>
@@ -89,33 +87,30 @@ export default function AnimalDetailsPageCard({
               <Weight size={18} />
               <span>{animal.weight} kg</span>
             </div>
-
           </div>
 
           {/* DIVIDER */}
           <div className="border-t pt-4 space-y-2 text-sm text-muted-foreground">
-            <p><span className="text-foreground font-medium">Type:</span> {animal.type}</p>
-            <p><span className="text-foreground font-medium">Breed:</span> {animal.breed}</p>
+            <p>
+              <span className="text-foreground font-medium">Type:</span> {animal.type}
+            </p>
+            <p>
+              <span className="text-foreground font-medium">Breed:</span> {animal.breed}
+            </p>
           </div>
 
           {/* DESCRIPTION */}
           <div className="border-t pt-4 space-y-2">
             <h3 className="font-semibold text-base">Description</h3>
-            <p className="text-muted-foreground leading-relaxed text-sm">
-              {animal.description}
-            </p>
+            <p className="text-muted-foreground leading-relaxed text-sm">{animal.description}</p>
           </div>
-         
-         {/* BOOKING SECTION */}
-<div className="border-t pt-6 space-y-4">
 
-  <h3 className="text-xl font-semibold">
-    Book This Animal
-  </h3>
+          {/* BOOKING SECTION */}
+          <div className="border-t pt-6 space-y-4">
+            <h3 className="text-xl font-semibold">Book This Animal</h3>
 
-<Form  />
-
-</div>
+            <Form />
+          </div>
         </div>
       </div>
     </div>
