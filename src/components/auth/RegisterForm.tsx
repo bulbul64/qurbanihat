@@ -11,8 +11,8 @@ import { Separator } from "@/components/ui/separator";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const formSchema = z.object({
@@ -35,6 +35,7 @@ const RegisterForm = () => {
     },
   });
 
+ 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setLoading(true);
 
@@ -55,21 +56,16 @@ const RegisterForm = () => {
     router.push("/auth/login");
   };
 
+ 
   const handleGoogleSignIn = async () => {
-    try {
-      setGoogleLoading(true);
+    setGoogleLoading(true);
 
-      await authClient.signIn.social({
-        provider: "google",
-      });
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/", 
+    });
 
-      toast.success("Signed in with Google!");
-      router.push("/");
-    } catch {
-      toast.error("Google sign-in failed");
-    } finally {
-      setGoogleLoading(false);
-    }
+    setGoogleLoading(false);
   };
 
   return (
@@ -81,7 +77,7 @@ const RegisterForm = () => {
           <Logo className="h-10 w-auto" />
           <p className="mt-4 text-xl font-medium">Create your account</p>
 
-          {/* Google Login */}
+          {/* Google Button */}
           <Button
             onClick={handleGoogleSignIn}
             disabled={googleLoading}
@@ -98,7 +94,7 @@ const RegisterForm = () => {
             <Separator />
           </div>
 
-          {/* Form */}
+          {/* FORM */}
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
 
             {/* Name */}
@@ -141,16 +137,12 @@ const RegisterForm = () => {
             />
 
             {/* Submit */}
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={loading}
-            >
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Creating account..." : "Create Account"}
             </Button>
           </form>
 
-          {/* Login Link */}
+          {/* Login link */}
           <p className="mt-5 text-center text-sm">
             Already have an account?
             <Link href="/auth/login" className="ml-1 underline text-muted-foreground">
