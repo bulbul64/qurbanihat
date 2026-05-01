@@ -113,7 +113,7 @@ const signIn = async () => {
 
         <div className="relative isolate flex flex-col items-center">
            <Logo className="h-12 w-auto" />
-          <p className="mt-4 font-medium text-xl">Log in to Shadcn UI Blocks</p>
+          <p className="mt-4 font-medium text-xl">Log in to your account</p>
 
           <Button
             onClick={signIn}

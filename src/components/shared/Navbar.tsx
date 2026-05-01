@@ -29,7 +29,7 @@ const Navbar = () => {
       <div className="mx-auto flex h-full max-w-(--breakpoint-xl) items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* LEFT */}
         <div className="flex items-center gap-12">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <Image
               className="h-18 w-18"
               src="/images/logo.jpg"
@@ -37,8 +37,8 @@ const Navbar = () => {
               width={100}
               height={100}
             />
-            <h2 className="text-xl font-semibold">Qurbanihat</h2>
-          </div>
+           
+          </Link>
           <NavMenu className="hidden md:block" />
         </div>
 
