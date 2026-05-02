@@ -1,64 +1,56 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { Logo } from "../logo";
-
-
-
-
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { authClient } from '@/lib/auth-client';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { Logo } from '../logo';
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8, "Password must be at least 8 characters long"),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
 });
 
 const Login = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     resolver: zodResolver(formSchema),
   });
 
-    const router = useRouter();
-const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+  const router = useRouter();
+  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+    const { error } = await authClient.signIn.email({
+      email: formData.email,
+      password: formData.password,
+    });
 
-  const {  error } = await authClient.signIn.email({
-    email: formData.email,
-    password: formData.password
-  });
+    if (error) {
+      toast.error(error.message || 'Login failed!');
+      return;
+    }
 
+    toast.success('Login successful!');
 
-  if (error) {
-    toast.error(error.message || "Login failed!");
-    return;
-  }
+    router.push('/');
+  };
 
-  toast.success("Login successful!");
-
-  
-    router.push("/");
- 
-};
-
-const signIn = async () => {
-  const data = await authClient.signIn.social({
-    provider: "google",
-  });
- console.log(data)
-};
+  const signIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: 'google',
+    });
+    console.log(data)
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -70,8 +62,8 @@ const signIn = async () => {
         linear-gradient(to right, color-mix(in srgb, var(--card-foreground) 8%, transparent) 1px, transparent 1px),
         linear-gradient(to bottom, color-mix(in srgb, var(--card-foreground) 8%, transparent) 1px, transparent 1px)
       `,
-            backgroundSize: "20px 20px",
-            backgroundPosition: "0 0, 0 0",
+            backgroundSize: '20px 20px',
+            backgroundPosition: '0 0, 0 0',
             maskImage: `
         repeating-linear-gradient(
               to right,
@@ -106,19 +98,16 @@ const signIn = async () => {
             ),
             radial-gradient(ellipse 70% 50% at 50% 0%, #000 60%, transparent 100%)
       `,
-            maskComposite: "intersect",
-            WebkitMaskComposite: "source-in",
+            maskComposite: 'intersect',
+            WebkitMaskComposite: 'source-in',
           }}
         />
 
         <div className="relative isolate flex flex-col items-center">
-           <Logo className="h-12 w-auto" />
+          <Logo className="h-12 w-auto" />
           <p className="mt-4 font-medium text-xl">Log in to your account</p>
 
-          <Button
-            onClick={signIn}
-            variant="outline"
-           className="mt-8 w-full gap-3">
+          <Button onClick={signIn} variant="outline" className="mt-8 w-full gap-3">
             <GoogleLogo />
             Continue with Google
           </Button>
@@ -128,10 +117,7 @@ const signIn = async () => {
             <span className="px-2 text-sm">OR</span>
             <Separator />
           </div>
-          <form
-            className="w-full space-y-6"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
+          <form className="w-full space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
             <Controller
               control={form.control}
               name="email"
@@ -166,18 +152,13 @@ const signIn = async () => {
                 </Field>
               )}
             />
-            <Button
-              disabled={!form.formState.isValid}
-             className="w-full" type="submit">
+            <Button disabled={!form.formState.isValid} className="w-full" type="submit">
               Continue with Email
             </Button>
           </form>
 
           <div className="mt-5 space-y-5">
-            <Link
-              className="block text-center text-muted-foreground text-sm underline"
-              href="#"
-            >
+            <Link className="block text-center text-muted-foreground text-sm underline" href="#">
               Forgot your password?
             </Link>
             <p className="text-center text-sm">
