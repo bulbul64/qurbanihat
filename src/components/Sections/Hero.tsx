@@ -61,7 +61,7 @@ export default function Hero() {
         <div className="mt-auto aspect-video w-full rounded-xl bg-accent animate__animated animate__zoomIn">
           <Image
             className="rounded-xl w-full"
-            src="/images/qurbani.jpg"
+            src="/images/qurbani.webp"
             alt="hero"
             width={500}
             height={500}
