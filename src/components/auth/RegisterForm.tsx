@@ -46,9 +46,9 @@ const RegisterForm = () => {
 
     toast.success('Registration successful!');
     
-    setTimeout(() => {
+   
       router.push('/auth/login');
-    }, 1000);
+   
   };
 
   const signIn = async () => {
