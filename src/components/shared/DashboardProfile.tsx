@@ -11,7 +11,6 @@ import AuthGuardFallback from '../auth/AuthGuardFallback';
 
 const DashboardProfile = ({ className }: { className?: string }) => {
   const { data: session } = authClient.useSession();
-
   if (!session) {
     return (
       <AuthGuardFallback

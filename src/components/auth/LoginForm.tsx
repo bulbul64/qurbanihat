@@ -48,16 +48,16 @@ const onSubmit = async (formData: z.infer<typeof formSchema>) => {
 
   toast.success("Login successful!");
 
-  setTimeout(() => {
+  
     router.push("/");
-  }, 1000);
+ 
 };
 
 const signIn = async () => {
   const data = await authClient.signIn.social({
     provider: "google",
   });
-  console.log(data)
+
 };
 
   return (
